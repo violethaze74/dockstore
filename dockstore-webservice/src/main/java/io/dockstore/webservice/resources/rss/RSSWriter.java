@@ -16,7 +16,6 @@
 package io.dockstore.webservice.resources.rss;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Iterator;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
@@ -59,9 +58,7 @@ public final class RSSWriter {
         createNode(writer, "language", header.getLanguage());
         createNode(writer, "copyright", header.getCopyright());
         createNode(writer, "pubDate", header.getPubDate());
-        Iterator<RSSEntry> iterator = rssfeed.getEntries().iterator();
-        while (iterator.hasNext()) {
-            RSSEntry entry = iterator.next();
+        for (RSSEntry entry : rssfeed.getEntries()) {
             writer.add(eventFactory.createStartElement("", "", "item"));
             writer.add(endSection);
             createNode(writer, "title", entry.getTitle());
