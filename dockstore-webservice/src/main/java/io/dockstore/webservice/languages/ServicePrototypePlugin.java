@@ -32,6 +32,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("UnnecessaryLocalVariable")
 public class ServicePrototypePlugin implements RecommendedLanguageInterface {
     private static final Logger LOG = LoggerFactory.getLogger(ServicePrototypePlugin.class);
 
@@ -77,8 +78,7 @@ public class ServicePrototypePlugin implements RecommendedLanguageInterface {
         if (!validationMessage.isEmpty()) {
             validationMessageObject.put(initialPath, validationMessage);
         }
-        VersionTypeValidation validation = new VersionTypeValidation(validationMessageObject.isEmpty(), validationMessageObject);
-        return validation;
+        return new VersionTypeValidation(validationMessageObject.isEmpty(), validationMessageObject);
     }
 
     @Override
