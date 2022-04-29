@@ -16,7 +16,6 @@
 
 package io.dockstore.common;
 
-import com.google.common.base.Optional;
 import com.google.common.io.ByteStreams;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.builder.ConfigurationBuilder;
@@ -114,7 +114,7 @@ public final class Utilities {
      * @return the stdout and stderr
      */
     private static ImmutablePair<String, String> executeCommand(String command, final boolean dumpOutput,
-            Optional<OutputStream> stdoutStream, Optional<OutputStream> stderrStream, File workingDir) {
+                                                                Optional<OutputStream> stdoutStream, Optional<OutputStream> stderrStream, File workingDir) {
         return executeCommand(command, dumpOutput, stdoutStream, stderrStream, workingDir, null, DEFAULT_TIMEOUT_MILLISECONDS);
     }
 
@@ -138,7 +138,7 @@ public final class Utilities {
      * @return the stdout and stderr
      */
     private static ImmutablePair<String, String> executeCommand(String command, final boolean dumpOutput,
-            Optional<OutputStream> stdoutStream, Optional<OutputStream> stderrStream, File workingDir, Map<String, String> additionalEnvironment, long timeout) {
+                                                                Optional<OutputStream> stdoutStream, Optional<OutputStream> stderrStream, File workingDir, Map<String, String> additionalEnvironment, long timeout) {
         // TODO: limit our output in case the called program goes crazy
 
         // these are for returning the output for use by this
