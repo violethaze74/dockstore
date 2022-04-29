@@ -313,7 +313,7 @@ public abstract class AbstractHostedEntryResource<T extends Entry<T, U>, U exten
         Set<SourceFile> sourceFiles = version.getSourceFiles();
         List<String> invalidFileNames = new ArrayList<>();
 
-        sourceFiles.stream().forEach(sourceFile -> {
+        sourceFiles.forEach(sourceFile -> {
             if (sourceFile.getPath().endsWith("/")) {
                 invalidFileNames.add(sourceFile.getPath());
             }
