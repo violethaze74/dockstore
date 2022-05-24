@@ -184,7 +184,7 @@ jobs:
             bash scripts/decrypt.sh
       - run:
           name: build
-          command: ./mvnw -B clean install -DskipTests
+          command: ./mvnw -B clean install -DskipTests -T3C
       - run:
           name: validate openapi
           command: |
