@@ -305,6 +305,8 @@
                         <runOrder>random</runOrder>
                         <!-- profiles can set how many times flakey tests should be rerun -->
                         <rerunFailingTestsCount>${rerunFailingTestsCount}</rerunFailingTestsCount>
+                        <parallel>all</parallel>
+                        <useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -317,6 +319,8 @@
                         <!-- enforce that tests should be independent -->
                         <runOrder>random</runOrder>
                         <rerunFailingTestsCount>${rerunFailingTestsCount}</rerunFailingTestsCount>
+                        <parallel>classes</parallel>
+                        <useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
                 <plugin>
