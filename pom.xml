@@ -305,8 +305,11 @@
                         <runOrder>random</runOrder>
                         <!-- profiles can set how many times flakey tests should be rerun -->
                         <rerunFailingTestsCount>${rerunFailingTestsCount}</rerunFailingTestsCount>
-                        <parallel>all</parallel>
-                        <perCoreThreadCount>1</perCoreThreadCount>
+                        <parallel>classes</parallel>
+                        <!-- True by default -->
+                        <perCoreThreadCount>true</perCoreThreadCount>
+                        <threadCount>1</threadCount>
+
                     </configuration>
                 </plugin>
                 <plugin>
@@ -320,7 +323,9 @@
                         <runOrder>random</runOrder>
                         <rerunFailingTestsCount>${rerunFailingTestsCount}</rerunFailingTestsCount>
                         <parallel>classes</parallel>
-                        <perCoreThreadCount>1</perCoreThreadCount>
+                        <!-- True by default -->
+                        <perCoreThreadCount>true</perCoreThreadCount>
+                        <threadCount>1</threadCount>
                     </configuration>
                 </plugin>
                 <plugin>
