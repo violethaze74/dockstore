@@ -305,6 +305,8 @@
                         <runOrder>random</runOrder>
                         <!-- re-run flaky tests once -->
                         <rerunFailingTestsCount>1</rerunFailingTestsCount>
+                        <parallel>all</parallel>
+                        <useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -318,6 +320,8 @@
                         <runOrder>random</runOrder>
                         <!-- re-run flaky tests once -->
                         <rerunFailingTestsCount>1</rerunFailingTestsCount>
+                        <parallel>all</parallel>
+                        <useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
                 <plugin>
