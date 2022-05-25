@@ -319,7 +319,7 @@
                         <!-- enforce that tests should be independent -->
                         <runOrder>random</runOrder>
                         <rerunFailingTestsCount>${rerunFailingTestsCount}</rerunFailingTestsCount>
-                        <parallel>classes</parallel>
+                        <parallel>methods</parallel>
                         <useUnlimitedThreads>true</useUnlimitedThreads>
                     </configuration>
                 </plugin>
