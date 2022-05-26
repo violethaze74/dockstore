@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import io.dockstore.common.BitBucketTest;
+// import io.dockstore.common.BitBucketTest;
 import io.dockstore.common.CommonTestUtilities;
 import io.dockstore.common.DescriptorLanguage;
 import io.dockstore.common.SourceControl;
@@ -59,7 +59,7 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
-import org.junit.experimental.categories.Category;
+// import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -68,7 +68,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author dyuen
  */
-@Category(BitBucketTest.class)
+// @Category(BitBucketTest.class)
 public class BitBucketGitHubWorkflowIT extends BaseIT {
     public static final String DOCKSTORE_TEST_USER_2_HELLO_DOCKSTORE_NAME = "DockstoreTestUser2/hello-dockstore-workflow";
     public static final String DOCKSTORE_TEST_USER2_HELLO_DOCKSTORE_WORKFLOW =

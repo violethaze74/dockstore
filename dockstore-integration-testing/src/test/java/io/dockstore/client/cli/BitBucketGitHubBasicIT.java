@@ -19,7 +19,7 @@ package io.dockstore.client.cli;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertTrue;
 
-import io.dockstore.common.BitBucketTest;
+// import io.dockstore.common.BitBucketTest;
 import io.dockstore.common.CommonTestUtilities;
 import io.dockstore.common.Registry;
 import io.swagger.client.ApiClient;
@@ -34,7 +34,8 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
-import org.junit.experimental.categories.Category;
+
+// import org.junit.experimental.categories.Category;
 
 /**
  * Basic confidential integration tests, focusing on publishing/unpublishing both automatic and manually added tools
@@ -42,7 +43,7 @@ import org.junit.experimental.categories.Category;
  *
  * @author aduncan
  */
-@Category(BitBucketTest.class)
+// @Category(BitBucketTest.class)
 public class BitBucketGitHubBasicIT extends BaseIT {
     @Rule
     public final ExpectedSystemExit systemExit = ExpectedSystemExit.none();
@@ -63,9 +64,7 @@ public class BitBucketGitHubBasicIT extends BaseIT {
      * General-ish tests
      */
 
-    /**
-     * Tests that refresh all works, also that refreshing without a quay.io token should not destroy tools
-     */
+
     @Test
     public void testRefresh() {
         ApiClient client = getWebClient(USER_1_USERNAME, testingPostgres);
