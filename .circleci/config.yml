@@ -48,48 +48,48 @@ workflows:
   version: 2
   everything:
     jobs:
-      # - build:
-      #     <<: *common_filters
-      # - unit_test:
-      #     <<: *common_filters
-      #     requires:
-      #       - build
-      #     context:
-      #       - sonarcloud
-      # - workflow-integration-tests:
-      #     <<: *common_filters
-      #     requires:
-      #       - build
-      #     context: sonarcloud
+      - build:
+          <<: *common_filters
+      - unit_test:
+          <<: *common_filters
+          requires:
+            - build
+          context:
+            - sonarcloud
+      - workflow-integration-tests:
+          <<: *common_filters
+          requires:
+            - build
+          context: sonarcloud
       - bitbucket-tests:
           <<: *common_filters
           requires:
             - build
           context: sonarcloud
-      # - language-parsing-tests:
-      #     <<: *common_filters
-      #     requires:
-      #       - build
-      #     context: sonarcloud
-      # - tool-integration-tests:
-      #     <<: *common_filters
-      #     requires:
-      #       - build
-      #     context: sonarcloud
-      # - integration-tests:
-      #     <<: *common_filters
-      #     requires:
-      #       - build
-      #     context: sonarcloud
-      # - regression-integration-tests:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      #           - /^release.*$/
-      #     requires:
-      #       - build
-      #     context: sonarcloud
+      - language-parsing-tests:
+          <<: *common_filters
+          requires:
+            - build
+          context: sonarcloud
+      - tool-integration-tests:
+          <<: *common_filters
+          requires:
+            - build
+          context: sonarcloud
+      - integration-tests:
+          <<: *common_filters
+          requires:
+            - build
+          context: sonarcloud
+      - regression-integration-tests:
+          filters:
+            branches:
+              only:
+                - master
+                - /^release.*$/
+          requires:
+            - build
+          context: sonarcloud
 jobs:
   regression-integration-tests:
     executor: machine_integration_test_exec
@@ -440,7 +440,8 @@ commands:
             python3 -V
       - run:
           name: run integration test
-          command: ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate clean install -P$TESTING_PROFILE,coverage -ntpe
+          command: ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate clean install -P$TESTING_PROFILE,coverage -ntp
+      - run:
           name: send coverage
           command: bash <(curl -s https://codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
       - run:
