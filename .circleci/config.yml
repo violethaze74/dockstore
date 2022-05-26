@@ -48,8 +48,8 @@ workflows:
   version: 2
   everything:
     jobs:
-      # - build:
-      #     <<: *common_filters
+      - build:
+          <<: *common_filters
       # - unit_test:
       #     <<: *common_filters
       #     requires:
@@ -63,8 +63,8 @@ workflows:
       #     context: sonarcloud
       - bitbucket-tests:
           <<: *common_filters
-          # requires:
-          #   - build
+          requires:
+            - build
           context: sonarcloud
       # - language-parsing-tests:
       #     <<: *common_filters
