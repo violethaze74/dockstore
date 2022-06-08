@@ -459,7 +459,7 @@ commands:
             do basename $file \
             | sed -e "s/.java/,/"; \
             done | tr -d '\r\n') 
-            #
+            -e test
       - run:
           name: send coverage
           command: bash <(curl -s https://codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
