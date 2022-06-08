@@ -93,7 +93,7 @@ workflows:
 jobs:
   regression-integration-tests:
     executor: machine_integration_test_exec
-    parallelism: 2
+    parallelism: 4
     environment:
       TESTING_PROFILE: regression-integration-tests
       TEST_FILE: regression-integration-tests.txt
@@ -123,7 +123,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   tool-integration-tests:
-    parallelism: 2
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: tool-integration-tests
@@ -135,7 +135,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   workflow-integration-tests:
-    parallelism: 2
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: workflow-integration-tests
@@ -147,7 +147,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   bitbucket-tests:
-    parallelism: 2
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: bitbucket-tests
@@ -159,7 +159,7 @@ jobs:
       - setup_integration_test
       - save_test_results    
   language-parsing-tests:
-    parallelism: 2
+    parallelism: 4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: language-parsing-tests
@@ -331,7 +331,7 @@ jobs:
           name: SonarCloud scan - coverage
           command: ./mvnw sonar:sonar
       - run:
-          name: Make jar directory
+          name: Make jar direc.tory
           command: mkdir /tmp/artifacts
       - run:
           name: Move jars
