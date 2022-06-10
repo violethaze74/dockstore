@@ -455,6 +455,7 @@ commands:
           command: 
             set -e
             TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
+            echo $TEST_FILES
             ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
             -Dtest=$(for file in $TEST_FILES; \
             do basename $file \
