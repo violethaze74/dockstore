@@ -452,7 +452,7 @@ commands:
             python3 -V
       - run:
           name: run integration test
-          command: 
+          command: |
             TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
             echo $TEST_FILES
             ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
