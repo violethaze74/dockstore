@@ -419,6 +419,7 @@ commands:
       - restore_cache:
           key: dockstore-web-cache-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CACHE_SEGMENTED_VERSION }}-segmented
   setup_integration_test:
+    parallelism: 4
     steps:
       - run:
           name: decrypt and expand confidential test data
