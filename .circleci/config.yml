@@ -453,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw \
+            ./mvnw -DfailIfNoTests=false \
             -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" "**/*IT*.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
