@@ -92,6 +92,7 @@ workflows:
           context: sonarcloud
 jobs:
   regression-integration-tests:
+    parallelism: 4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: regression-integration-tests
@@ -108,6 +109,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   integration-tests:
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: integration-tests
@@ -121,6 +123,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   tool-integration-tests:
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: tool-integration-tests
@@ -132,6 +135,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   workflow-integration-tests:
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: workflow-integration-tests
@@ -143,6 +147,7 @@ jobs:
       - setup_integration_test
       - save_test_results
   bitbucket-tests:
+    parallelism: 4
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: bitbucket-tests
@@ -154,6 +159,7 @@ jobs:
       - setup_integration_test
       - save_test_results    
   language-parsing-tests:
+    parallelism: 4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: language-parsing-tests
@@ -419,7 +425,6 @@ commands:
       - restore_cache:
           key: dockstore-web-cache-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CACHE_SEGMENTED_VERSION }}-segmented
   setup_integration_test:
-    parallelism: 4
     steps:
       - run:
           name: decrypt and expand confidential test data
@@ -448,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage -ntp \
+            ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
             -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
