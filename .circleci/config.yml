@@ -453,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ALL_TEST_FILES=$(circleci tests glob "src/test/**/**.java")
+            ALL_TEST_FILES=$(circleci tests glob "**/test/**/**.java")
             echo $ALL_TEST_FILES
             # TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
             # echo $TEST_FILES
