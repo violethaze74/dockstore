@@ -452,10 +452,11 @@ commands:
             python3 -V
       - run:
           name: run integration test
-          command: |
+          command: 
+            set -e
+            TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
             ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
-            -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
-            | circleci tests split --split-by=timings); \
+            -Dtest=$(for file in $TEST_FILES; \
             do basename $file \
             | sed -e "s/.java/,/"; \
             done | tr -d '\r\n') \
