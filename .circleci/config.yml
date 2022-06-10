@@ -453,6 +453,8 @@ commands:
       - run:
           name: run integration test
           command: |
+            ALL_TEST_FILES = $(circleci tests glob "src/test/**/**.java")
+            echo $ALL_TEST_FILES
             TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
             echo $TEST_FILES
             ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
