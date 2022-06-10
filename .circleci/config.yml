@@ -159,7 +159,7 @@ jobs:
       - setup_integration_test
       - save_test_results    
   language-parsing-tests:
-    parallelism: 4
+    parallelism:  4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: language-parsing-tests
