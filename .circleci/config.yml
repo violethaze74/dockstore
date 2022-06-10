@@ -453,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage -ntp \
+            ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
             -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
