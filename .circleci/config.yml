@@ -453,16 +453,13 @@ commands:
       - run:
           name: run integration test
           command: |
-            ALL_TEST_FILES=$(circleci tests glob "**/test/**/**.java")
-            echo $ALL_TEST_FILES
-            # TEST_FILES=$(circleci tests glob "src/test/**/**.java"  | circleci tests split --split-by=timings)
-            # echo $TEST_FILES
-            # ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
-            # -Dtest=$(for file in $TEST_FILES; \
-            # do basename $file \
-            # | sed -e "s/.java/,/"; \
-            # done | tr -d '\r\n') \
-            # -e test verify
+            ./mvnw \
+            -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" ""**/*IT*.java" \
+            | circleci tests split --split-by=timings); \
+            do basename $file \
+            | sed -e "s/.java/,/"; \
+            done | tr -d '\r\n') \
+            -e test
       - run:
           name: send coverage
           command: bash <(curl -s https://codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
