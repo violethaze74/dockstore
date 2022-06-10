@@ -454,7 +454,7 @@ commands:
           name: run integration test
           command: |
             ./mvnw \
-            -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" ""**/*IT*.java" \
+            -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" "**/*IT*.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
             | sed -e "s/.java/,/"; \
