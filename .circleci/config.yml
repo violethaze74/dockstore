@@ -92,8 +92,8 @@ workflows:
           context: sonarcloud
 jobs:
   regression-integration-tests:
-    executor: machine_integration_test_exec
     parallelism: 4
+    executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: regression-integration-tests
       TEST_FILE: regression-integration-tests.txt
@@ -159,7 +159,7 @@ jobs:
       - setup_integration_test
       - save_test_results    
   language-parsing-tests:
-    parallelism:  4
+    parallelism: 4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: language-parsing-tests
@@ -453,13 +453,13 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate -P$TESTING_PROFILE,coverage \
-            -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
+            ./mvnw -DfailIfNoTests=false \
+            -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" "**/*IT*.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
             | sed -e "s/.java/,/"; \
             done | tr -d '\r\n') \
-            -e test verify
+            -e test
       - run:
           name: send coverage
           command: bash <(curl -s https://codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
