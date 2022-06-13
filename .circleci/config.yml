@@ -454,7 +454,7 @@ commands:
           name: run integration test
           command: |
             ./mvnw -DfailIfNoTests=false \
-            -Dtest=$(cat $TEST_FILE circleci tests split --split-by=timings --timings-type=classname | tr "\n" ",")
+            -Dtest=$(cat $TEST_FILE | circleci tests split --split-by=timings --timings-type=classname | tr "\n" ",")
             -e test
       - run:
           name: send coverage
