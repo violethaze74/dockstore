@@ -453,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw \
+            ./mvnw -P$TESTING_PROFILE \
             -Dtest=$(for file in $(cat $TEST_FILE \
             | circleci tests split --split-by=timings); \
             do basename $file \
