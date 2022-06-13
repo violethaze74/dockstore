@@ -1,5 +1,5 @@
-BitBucketGitHubWorkflowIT,
-BitBucketGitHubBasicIT,
-BitBucketExtendedNextflowIT,
-BitBucketGeneralWorkflowIT,
-BitBucketSourceCodeRepoFactoryTest,
+BitBucketGitHubWorkflowIT
+BitBucketGitHubBasicIT
+BitBucketExtendedNextflowIT
+BitBucketGeneralWorkflowIT
+BitBucketSourceCodeRepoFactoryTest

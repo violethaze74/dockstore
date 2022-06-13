@@ -1,4 +1,4 @@
-BasicIT,
-GeneralIT,
-EventResourceIT,
-AdvancedIndexingBenchmarkIT,
+BasicIT
+GeneralIT
+EventResourceIT
+AdvancedIndexingBenchmarkIT

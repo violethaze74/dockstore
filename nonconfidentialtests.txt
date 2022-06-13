@@ -1,6 +1,6 @@
-OpenApiIT,
-DockerRegistryAPIHelperIT,
-ORCIDHelperTest,
-UserResourceServicesIT,
-NoPluginIT,
-TokenResourceIT,
+OpenApiIT
+DockerRegistryAPIHelperIT
+ORCIDHelperTest
+UserResourceServicesIT
+NoPluginIT
+TokenResourceIT
