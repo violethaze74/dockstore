@@ -127,7 +127,7 @@ jobs:
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: tool-integration-tests
-      TEST_FILE: tool-integration-tests.txt
+      TEST_FILE: tooltests.txt
     steps:
       - setup_test
       - install-postgres
@@ -139,7 +139,7 @@ jobs:
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: workflow-integration-tests
-      TEST_FILE: workflow-integration-tests.txt
+      TEST_FILE: workflowtests.txt
     steps:
       - setup_test
       - install-postgres
@@ -151,19 +151,19 @@ jobs:
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: bitbucket-tests
-      TEST_FILE: bitbucket-tests.txt
+      TEST_FILE: bitbuckettests.txt
     steps:
       - setup_test
       - install-postgres
       - setup_postgres
       - setup_integration_test
-      - save_test_results    
+      - save_test_results
   language-parsing-tests:
     parallelism: 4
     executor: machine_integration_test_exec
     environment:
       TESTING_PROFILE: language-parsing-tests
-      TEST_FILE: language-parsing-tests.txt
+      TEST_FILE: languageparsingtests.txt
     steps:
       - old_python
       - setup_machine
@@ -171,7 +171,7 @@ jobs:
       - run:
           name: install pip dependencies
           command: scripts/install-tests.sh
-      - run: 
+      - run:
           name: build sam-cli
           command: |
             pip3 install aws-sam-cli
@@ -268,7 +268,7 @@ jobs:
           command: ./mvnw -B org.jacoco:jacoco-maven-plugin:report org.jacoco:jacoco-maven-plugin:report-aggregate clean install -Punit-tests,coverage -ntp
       - run:
           name: send coverage for unit tests
-          command: bash <(curl -s https://codecov.io/bash) -F unit-tests_and_non-confidential-tests || echo "Codecov did not collect coverage reports"      
+          command: bash <(curl -s https://codecov.io/bash) -F unit-tests_and_non-confidential-tests || echo "Codecov did not collect coverage reports"
       - run:
           name: run the non-confidential integration tests
           command: |
@@ -454,7 +454,7 @@ commands:
           name: run integration test
           command: |
             ./mvnw -DfailIfNoTests=false \
-            -Dtest=$(for file in $(circleci tests glob "**/*Test*.java" "**/*IT*.java" \
+            -Dtest=$(for file in $(cat $TEST_FILE \
             | circleci tests split --split-by=timings); \
             do basename $file \
             | sed -e "s/.java/,/"; \
