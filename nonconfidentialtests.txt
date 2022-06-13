@@ -1,1 +1,6 @@
-./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/OpenApiIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/DockerRegistryAPIHelperIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/webservice/ORCIDHelperTest.java ./dockstore-integration-testing/src/test/java/io/dockstore/webservice/UserResourceServicesIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/webservice/languages/NoPluginIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/webservice/TokenResourceIT.java 
+OpenApiIT,
+DockerRegistryAPIHelperIT,
+ORCIDHelperTest,
+UserResourceServicesIT,
+NoPluginIT,
+TokenResourceIT,

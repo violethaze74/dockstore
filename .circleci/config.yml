@@ -454,11 +454,7 @@ commands:
           name: run integration test
           command: |
             ./mvnw -DfailIfNoTests=false \
-            -Dtest=$(for file in $(cat $TEST_FILE \
-            | circleci tests split --split-by=timings); \
-            do basename $file \
-            | sed -e "s/.java/,/"; \
-            done | tr -d '\r\n') \
+            -Dtest=$(cat $TEST_FILE | tr -d '\r\n' | circleci tests split --split-by=timings)
             -e test
       - run:
           name: send coverage

@@ -1,1 +1,3 @@
-./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/GA4GHV2CwltoolIT.java ./dockstore-webservice/src/test/java/io/dockstore/webservice/helpers/LanguageParserHelperTest.java ./dockstore-common/src/test/java/io/dockstore/client/cli/CWLClientIT.java 
+GA4GHV2CwltoolIT,
+LanguageParserHelperTest,
+CWLClientIT,

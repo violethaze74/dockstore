@@ -1,1 +1,7 @@
-./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/GeneralWorkflowIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/ExtendedNextflowIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/WorkflowIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/CheckerWorkflowIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/DAGWorkflowTestIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/ToolsWorkflowTestIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/webservice/languages/GalaxyPluginIT.java 
+GeneralWorkflowIT,
+ExtendedNextflowIT,
+WorkflowIT,
+CheckerWorkflowIT,
+DAGWorkflowTestIT,
+ToolsWorkflowTestIT,
+GalaxyPluginIT,

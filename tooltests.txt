@@ -1,1 +1,4 @@
-./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/BasicIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/GeneralIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/EventResourceIT.java ./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/AdvancedIndexingBenchmarkIT.java 
+BasicIT,
+GeneralIT,
+EventResourceIT,
+AdvancedIndexingBenchmarkIT,
