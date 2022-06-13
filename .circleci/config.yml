@@ -453,7 +453,7 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw -P$TESTING_PROFILE \
+            ./mvnw -P$TESTING_PROFILE  -DfailIfNoTests=false \
             -Dtest=$(cat $TEST_FILE |  paste -s -d ',') \
             -e test
       - run:
