@@ -1,5 +1,5 @@
-BitBucketGitHubWorkflowIT
-BitBucketGitHubBasicIT
-BitBucketExtendedNextflowIT
-BitBucketGeneralWorkflowIT
-BitBucketSourceCodeRepoFactoryTest
+./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/BitBucketGitHubWorkflowIT.java
+./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/BitBucketGitHubBasicIT.java
+./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/BitBucketExtendedNextflowIT.java
+./dockstore-integration-testing/src/test/java/io/dockstore/client/cli/BitBucketGeneralWorkflowIT.java
+./dockstore-webservice/src/test/java/io/dockstore/webservice/helpers/BitBucketSourceCodeRepoFactoryTest.java
