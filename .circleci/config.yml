@@ -453,8 +453,10 @@ commands:
       - run:
           name: run integration test
           command: |
+            Files_to_test=$(cat $TEST_FILE |  paste -s -d ',')
+            echo $Files_to_test
             ./mvnw -P$TESTING_PROFILE  -DfailIfNoTests=false \
-            -Dtest=$(cat $TEST_FILE |  paste -s -d ',') \
+            -Dtest=$(cat $Files_to_test) \
             -e test
       - run:
           name: send coverage
