@@ -50,32 +50,32 @@ workflows:
     jobs:
       - build:
           <<: *common_filters
-#      - unit_test:
-#          <<: *common_filters
-#          requires:
-#            - build
-#          context:
-#            - sonarcloud
-#      - workflow-integration-tests:
-#          <<: *common_filters
-#          requires:
-#            - build
-#          context: sonarcloud
-#      - bitbucket-tests:
-#          <<: *common_filters
-#          requires:
-#            - build
-#          context: sonarcloud
-#      - language-parsing-tests:
-#          <<: *common_filters
-#          requires:
-#            - build
-#          context: sonarcloud
-#      - tool-integration-tests:
-#          <<: *common_filters
-#          requires:
-#            - build
-#          context: sonarcloud
+      #      - unit_test:
+      #          <<: *common_filters
+      #          requires:
+      #            - build
+      #          context:
+      #            - sonarcloud
+      #      - workflow-integration-tests:
+      #          <<: *common_filters
+      #          requires:
+      #            - build
+      #          context: sonarcloud
+      #      - bitbucket-tests:
+      #          <<: *common_filters
+      #          requires:
+      #            - build
+      #          context: sonarcloud
+      #      - language-parsing-tests:
+      #          <<: *common_filters
+      #          requires:
+      #            - build
+      #          context: sonarcloud
+      #      - tool-integration-tests:
+      #          <<: *common_filters
+      #          requires:
+      #            - build
+      #          context: sonarcloud
       - integration-tests:
           <<: *common_filters
           requires:
@@ -453,13 +453,6 @@ commands:
       - run:
           name: run integration test
           command: |
-#            Files_to_test=$(cat $TEST_FILE |  circleci tests split --split-by=timings |  paste -s -d ',')
-#            echo "Files to test:"
-#            echo $Files_to_test
-            
-#            ./mvnw -P$TESTING_PROFILE  -DfailIfNoTests=false \
-#            -Dtest=$Files_to_test \
-#            -e test
             ./mvnw -DfailIfNoTests=false -Pintegration-tests -Dit.test=NextflowHandlerIT verify
       - run:
           name: send coverage
