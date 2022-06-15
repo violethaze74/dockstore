@@ -71,16 +71,16 @@ workflows:
 #                requires:
 #                  - build
 #                context: sonarcloud
-      - tool-integration-tests:
-          <<: *common_filters
-          requires:
-            - build
-          context: sonarcloud
-      - integration-tests:
-          <<: *common_filters
-          requires:
-            - build
-          context: sonarcloud
+#      - tool-integration-tests:
+#          <<: *common_filters
+#          requires:
+#            - build
+#          context: sonarcloud
+#      - integration-tests:
+#          <<: *common_filters
+#          requires:
+#            - build
+#          context: sonarcloud
 #      - regression-integration-tests:
 #          filters:
 #            branches:
@@ -139,7 +139,7 @@ jobs:
     executor: integration_test_exec
     environment:
       TESTING_PROFILE: workflow-integration-tests
-      TEST_FILE: workflowtests.txt
+      TEST_FILE: workflowtests.names
     steps:
       - setup_test
       - install-postgres
