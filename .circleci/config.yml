@@ -453,12 +453,13 @@ commands:
       - run:
           name: run integration test
           command: |
-            Files_to_test=$(cat $TEST_FILE |  circleci tests split --split-by=timings |  paste -s -d ',')
-            echo $Files_to_test
-            ./mvnw -DfailIfNoTests=false -P$TESTING_PROFILE -Dit.test=$Files_to_test verify # This will only do integration tests, as this statement invokes failsafe
+            ./mvnw -Pworkflow-integration-tests -Dit.test="WorkflowIT#testWorkflowVersionAliasesAreReturned" -DfailIfNoTests=false verify
+#            Files_to_test=$(cat $TEST_FILE |  circleci tests split --split-by=timings |  paste -s -d ',')
+#            echo $Files_to_test
+#            ./mvnw -DfailIfNoTests=false -P$TESTING_PROFILE -Dit.test=$Files_to_test verify # This will only do integration tests, as this statement invokes failsafe
       - run:
           name: send coverage
-          command: bash <(curl -s https://codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
+          command: bash <(curl -s https:./mvnw -Pworkflow-integration-tests -Dit.test="WorkflowIT#testWorkflowVersionAliasesAreReturned" -DfailIfNoTests=false verify//codecov.io/bash) -F ${TESTING_PROFILE//-} || echo "Codecov did not collect coverage reports"
       - run:
           name: SonarCloud scan - coverage
           command: ./mvnw sonar:sonar
