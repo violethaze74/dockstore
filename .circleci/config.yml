@@ -61,11 +61,11 @@ workflows:
           requires:
             - build
           context: sonarcloud
-      - bitbucket-tests:
-          <<: *common_filters
-          requires:
-            - build
-          context: sonarcloud
+#      - bitbucket-tests:
+#          <<: *common_filters
+#          requires:
+#            - build
+#          context: sonarcloud
 #            - language-parsing-tests:
 #                <<: *common_filters
 #                requires:
