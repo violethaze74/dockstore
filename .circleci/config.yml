@@ -453,7 +453,6 @@ commands:
       - run:
           name: run integration test
           command: |
-            ./mvnw -Pworkflow-integration-tests -Dit.test="WorkflowIT#testWorkflowVersionAliasesAreReturned" -DfailIfNoTests=false verify
             ./mvnw -Pworkflow-integration-tests -Dit.test=WorkflowIT -DfailIfNoTests=false verify
 #            Files_to_test=$(cat $TEST_FILE |  circleci tests split --split-by=timings |  paste -s -d ',')
 #            echo $Files_to_test
