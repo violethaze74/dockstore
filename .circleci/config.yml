@@ -454,6 +454,7 @@ commands:
           name: run integration test
           command: |
             ./mvnw -Pworkflow-integration-tests -Dit.test="WorkflowIT#testWorkflowVersionAliasesAreReturned" -DfailIfNoTests=false verify
+            ./mvnw -Pworkflow-integration-tests -Dit.test=WorkflowIT -DfailIfNoTests=false verify
 #            Files_to_test=$(cat $TEST_FILE |  circleci tests split --split-by=timings |  paste -s -d ',')
 #            echo $Files_to_test
 #            ./mvnw -DfailIfNoTests=false -P$TESTING_PROFILE -Dit.test=$Files_to_test verify # This will only do integration tests, as this statement invokes failsafe
