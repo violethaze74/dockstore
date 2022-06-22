@@ -376,9 +376,11 @@ public class ToolsApiServiceImpl extends ToolsApiService implements Authenticate
      */
     private String positionQuery(String query, long limit, long offset) {
         List<String> resultNameValues = new ArrayList<>();
-        for (String nameValue: query.split("&")) {
-            if (!nameValue.startsWith("limit=") && !nameValue.startsWith("offset=")) {
-                resultNameValues.add(nameValue);
+        if (query != null) {
+            for (String nameValue: query.split("&")) {
+                if (!nameValue.startsWith("limit=") && !nameValue.startsWith("offset=")) {
+                    resultNameValues.add(nameValue);
+                }
             }
         }
         resultNameValues.add("limit=" + limit);
