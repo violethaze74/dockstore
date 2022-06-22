@@ -25,7 +25,6 @@ import static io.openapi.api.impl.ToolClassesApiServiceImpl.WORKFLOW;
 import static io.swagger.api.impl.ToolsImplCommon.SERVICE_PREFIX;
 import static io.swagger.api.impl.ToolsImplCommon.WORKFLOW_PREFIX;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import io.dockstore.common.DescriptorLanguage;
 import io.dockstore.webservice.CustomWebApplicationException;
@@ -345,44 +344,46 @@ public class ToolsApiServiceImpl extends ToolsApiService implements Authenticate
             }
         }
 
+        final String scheme = config.getExternalConfig().getScheme();
+        final String hostname = config.getExternalConfig().getHostname();
+        final int port = config.getExternalConfig().getPort() == null ? -1 : Integer.parseInt(config.getExternalConfig().getPort());
+        final String path = ObjectUtils.firstNonNull(config.getExternalConfig().getBasePath(), "") + relativePath;
+        final String query = value.getUriInfo().getRequestUri().getQuery();
 
         final Response.ResponseBuilder responseBuilder = Response.ok(results);
         responseBuilder.header("current_offset", offset);
         responseBuilder.header("current_limit", actualLimit);
-        try {
-            int port = config.getExternalConfig().getPort() == null ? -1 : Integer.parseInt(config.getExternalConfig().getPort());
-            responseBuilder.header("self_link",
-                new URI(config.getExternalConfig().getScheme(), null, config.getExternalConfig().getHostname(), port,
-                    ObjectUtils.firstNonNull(config.getExternalConfig().getBasePath(), "") + relativePath,
-                    value.getUriInfo().getRequestUri().getQuery(), null).normalize().toURL().toString());
-            // construct links to other pages
-            List<String> filters = new ArrayList<>();
-            handleParameter(id, "id", filters);
-            handleParameter(organization, "organization", filters);
-            handleParameter(name, "name", filters);
-            handleParameter(toolname, "toolname", filters);
-            handleParameter(description, "description", filters);
-            handleParameter(author, "author", filters);
-            handleParameter(registry, "registry", filters);
-            handleParameter(String.valueOf(actualLimit), "limit", filters);
-
-            final long numPages = (numEntries.sum()) / actualLimit;
-
-            if (startIndex + actualLimit < numEntries.sum()) {
-                URI nextPageURI = new URI(config.getExternalConfig().getScheme(), null, config.getExternalConfig().getHostname(), port,
-                    ObjectUtils.firstNonNull(config.getExternalConfig().getBasePath(), "") + relativePath,
-                    Joiner.on('&').join(filters) + "&offset=" + (offsetInteger + 1), null).normalize();
-                responseBuilder.header("next_page", nextPageURI.toURL().toString());
-            }
-            URI lastPageURI = new URI(config.getExternalConfig().getScheme(), null, config.getExternalConfig().getHostname(), port,
-                ObjectUtils.firstNonNull(config.getExternalConfig().getBasePath(), "") + relativePath, Joiner.on('&').join(filters) + "&offset=" + numPages, null)
-                .normalize();
-            responseBuilder.header("last_page", lastPageURI.toURL().toString());
-
-        } catch (URISyntaxException | MalformedURLException e) {
-            throw new CustomWebApplicationException("Could not construct page links", HttpStatus.SC_BAD_REQUEST);
+        responseBuilder.header("self_link", createUrlString(scheme, hostname, port, path, query));
+        if (startIndex + actualLimit < numEntries.sum()) {
+            responseBuilder.header("next_page", createUrlString(scheme, hostname, port, path, positionQuery(query, actualLimit, offsetInteger + 1)));
         }
+        final long numPages = numEntries.sum() / actualLimit;
+        responseBuilder.header("last_page", createUrlString(scheme, hostname, port, path, positionQuery(query, actualLimit, numPages)));
+
         return responseBuilder.build();
+    }
+
+    private String createUrlString(String scheme, String hostname, int port, String path, String query) {
+        try {
+            return new URI(scheme, null, hostname, port, path, query, null).normalize().toURL().toString();
+        } catch (URISyntaxException | MalformedURLException e) {
+            throw new CustomWebApplicationException("Could not create url string", HttpStatus.SC_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Modifies the specified query string so the "limit" and "offset" fields are set to the specified values.
+     */
+    private String positionQuery(String query, long limit, long offset) {
+        List<String> resultNameValues = new ArrayList<>();
+        for (String nameValue: query.split("&")) {
+            if (!nameValue.startsWith("limit=") && !nameValue.startsWith("offset=")) {
+                resultNameValues.add(nameValue);
+            }
+        }
+        resultNameValues.add("limit=" + limit);
+        resultNameValues.add("offset=" + offset);
+        return String.join("&", resultNameValues);
     }
 
     /**
@@ -531,12 +532,6 @@ public class ToolsApiServiceImpl extends ToolsApiService implements Authenticate
             }
         }
         return entry;
-    }
-
-    private void handleParameter(String parameter, String queryName, List<String> filters) {
-        if (parameter != null) {
-            filters.add(queryName + "=" + parameter);
-        }
     }
 
     /**
