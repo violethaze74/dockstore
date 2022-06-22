@@ -403,7 +403,7 @@ public class GA4GHV2FinalIT extends GA4GHIT {
     @Test
     public void testGetHeaderLinksContainFilters() throws Exception {
         Response response = checkedResponse(baseURL + "tools?toolClass=Tool&limit=1");
-        MultivaluedMap<String,Object> headers = response.getHeaders();
+        MultivaluedMap<String, Object> headers = response.getHeaders();
         Assert.assertTrue(headers.get("self_link").toString().contains("toolClass=Tool"));
         Assert.assertTrue(headers.get("last_page").toString().contains("toolClass=Tool"));
         Assert.assertTrue(headers.get("next_page").toString().contains("toolClass=Tool"));
