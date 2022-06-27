@@ -237,31 +237,6 @@ public class GeneralWorkflowRegressionIT extends BaseIT {
         assertEquals("there should be 0 workflow versions, there are " + count, 0, count);
     }
 
-    /**
-     * Tests that convert with valid imports will work (for WDL)
-     */
-    @Test
-    @Ignore(KNOWN_BREAKAGE_MOVING_TO_1_6_0)
-    public void testRefreshAndConvertWithImportsWDLOld() {
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--script" });
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "update_workflow", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--descriptor-type", "wdl",
-                "--workflow-path", "/Dockstore.wdl", "--script" });
-
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "publish", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
-
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "convert", "entry2json", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow:wdl_import", "--script" });
-
-    }
 
     /**
      * Tests that a developer can launch a WDL workflow locally, instead of getting files from Dockstore
@@ -362,49 +337,6 @@ public class GeneralWorkflowRegressionIT extends BaseIT {
 
     }
 
-    /**
-     * This tests the dirty bit attribute for workflow versions with bitbucket
-     */
-    @Test
-    @Ignore(KNOWN_BREAKAGE_MOVING_TO_1_6_0)
-    public void testBitbucketDirtyBitOld() {
-        // Setup DB
-
-        // refresh all
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--script" });
-
-        // refresh individual that is valid
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
-
-        // Check that no versions have a true dirty bit
-        final long count = testingPostgres.runSelectStatement("select count(*) from workflowversion where dirtybit = true", long.class);
-        assertEquals("there should be no versions with dirty bit, there are " + count, 0, count);
-
-        // Edit workflow path for a version
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "version_tag", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--name", "master", "--workflow-path",
-                "/Dockstoredirty.cwl", "--script" });
-
-        // There should be on dirty bit
-        final long count1 = testingPostgres.runSelectStatement("select count(*) from workflowversion where dirtybit = true", long.class);
-        assertEquals("there should be 1 versions with dirty bit, there are " + count1, 1, count1);
-
-        // Update default cwl
-        runOldDockstoreClient(dockstore,
-            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "update_workflow", "--entry",
-                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--workflow-path", "/Dockstoreclean.cwl",
-                "--script" });
-
-        // There should be 3 versions with new cwl
-        final long count2 = testingPostgres
-            .runSelectStatement("select count(*) from workflowversion where workflowpath = '/Dockstoreclean.cwl'", long.class);
-        assertEquals("there should be 4 versions with workflow path /Dockstoreclean.cwl, there are " + count2, 4, count2);
-
-    }
 
     /**
      * This is a high level test to ensure that gitlab basics are working for gitlab as a workflow repo

@@ -16,6 +16,7 @@
 
 package io.dockstore.client.cli;
 
+import static io.dockstore.common.CommonTestUtilities.runOldDockstoreClient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -27,11 +28,13 @@ import io.dockstore.common.DescriptorLanguage;
 import io.dockstore.common.SourceControl;
 import io.dockstore.webservice.DockstoreWebserviceApplication;
 import io.dockstore.webservice.jdbi.FileDAO;
+import io.dropwizard.testing.ResourceHelpers;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.WorkflowsApi;
 import io.swagger.client.model.Workflow;
 import io.swagger.client.model.WorkflowVersion;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +59,8 @@ import org.junit.experimental.categories.Category;
 @Category(BitBucketTest.class)
 public class BitBucketGeneralWorkflowIT extends BaseIT {
 
+    public static final String KNOWN_BREAKAGE_MOVING_TO_1_6_0 = "Known breakage moving to 1.6.0";
+
     @Rule
     public final ExpectedSystemExit systemExit = ExpectedSystemExit.none();
 
@@ -66,6 +71,7 @@ public class BitBucketGeneralWorkflowIT extends BaseIT {
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
 
     private FileDAO fileDAO;
+    static File dockstore;
 
     @Before
     public void setup() {
@@ -238,5 +244,76 @@ public class BitBucketGeneralWorkflowIT extends BaseIT {
             fileDAO.findSourceFilesByVersion(version.get().getId()).stream().filter(sourceFile -> Objects.equals(sourceFile.getAbsolutePath(), "/Dockstore.wdl"))
                 .findFirst().isPresent());
     }
+
+    /**
+     * Tests that convert with valid imports will work (for WDL)
+     */
+    @Test
+    @Ignore(KNOWN_BREAKAGE_MOVING_TO_1_6_0)
+    public void testRefreshAndConvertWithImportsWDLOld() {
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--script" });
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "update_workflow", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--descriptor-type", "wdl",
+                "--workflow-path", "/Dockstore.wdl", "--script" });
+
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "publish", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
+
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "convert", "entry2json", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow:wdl_import", "--script" });
+
+    }
+
+    /**
+     * This tests the dirty bit attribute for workflow versions with bitbucket
+     */
+    @Test
+    @Ignore(KNOWN_BREAKAGE_MOVING_TO_1_6_0)
+    public void testBitbucketDirtyBitOld() {
+        // Setup DB
+
+        // refresh all
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--script" });
+
+        // refresh individual that is valid
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "refresh", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--script" });
+
+        // Check that no versions have a true dirty bit
+        final long count = testingPostgres.runSelectStatement("select count(*) from workflowversion where dirtybit = true", long.class);
+        assertEquals("there should be no versions with dirty bit, there are " + count, 0, count);
+
+        // Edit workflow path for a version
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "version_tag", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--name", "master", "--workflow-path",
+                "/Dockstoredirty.cwl", "--script" });
+
+        // There should be on dirty bit
+        final long count1 = testingPostgres.runSelectStatement("select count(*) from workflowversion where dirtybit = true", long.class);
+        assertEquals("there should be 1 versions with dirty bit, there are " + count1, 1, count1);
+
+        // Update default cwl
+        runOldDockstoreClient(dockstore,
+            new String[] { "--config", ResourceHelpers.resourceFilePath("config_file2.txt"), "workflow", "update_workflow", "--entry",
+                SourceControl.BITBUCKET.toString() + "/dockstore_testuser2/dockstore-workflow", "--workflow-path", "/Dockstoreclean.cwl",
+                "--script" });
+
+        // There should be 3 versions with new cwl
+        final long count2 = testingPostgres
+            .runSelectStatement("select count(*) from workflowversion where workflowpath = '/Dockstoreclean.cwl'", long.class);
+        assertEquals("there should be 4 versions with workflow path /Dockstoreclean.cwl, there are " + count2, 4, count2);
+
+    }
+
 
 }
