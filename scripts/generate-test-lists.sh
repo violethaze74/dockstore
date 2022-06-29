@@ -68,6 +68,10 @@ REMAINING_TEST_FILE=integration-tests.txt
 find . -name "*IT\.java" -or -name "IT*\.java" -or -name "*ITCase\.java" > "$PREFIX"/"$REMAINING_TEST_FILE"
 
 
+find . -name "*IT\.java" -or -name "IT*\.java" -or -name "*ITCase\.java" > "$PREFIX"/all.txt
+FILE_TO_CHANGE="$PREFIX"/all.txt
+make_file_names_fully_qualified_class_paths
+
 # Get BitBucket ITs
 CATEGORY=BitBucketTest.class
 OUTPUT_TEST_FILE=bitbucket.txt
