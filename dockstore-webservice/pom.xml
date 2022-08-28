@@ -923,7 +923,7 @@
         <dependency>
             <groupId>org.orcid</groupId>
             <artifactId>orcid-model</artifactId>
-            <version>3.0.4</version>
+            <version>3.0.11</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.commons</groupId>
@@ -1103,7 +1103,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>reference.conf</resource>
                                 </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>io.dockstore.webservice.DockstoreWebserviceApplication</mainClass>
                                 </transformer>
